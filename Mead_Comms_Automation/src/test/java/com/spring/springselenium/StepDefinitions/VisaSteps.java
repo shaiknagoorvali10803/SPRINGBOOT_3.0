@@ -54,8 +54,8 @@ public class VisaSteps {
     @Given("I am on VISA registration form")
     public void launchSite() {
         this.driver.navigate().to("https://vins-udemy.s3.amazonaws.com/sb/visa/udemy-visa.html");
-        System.out.println("Current Thread Number "+ Thread.currentThread().getThreadGroup() +"thread number"+ Thread.currentThread().getId());
-        //screenshotUtils.insertScreenshot("screenshot");
+        //System.out.println("Current Thread Number "+ Thread.currentThread().getThreadGroup() +"thread number"+ Thread.currentThread().getId());
+        screenshotUtils.insertScreenshot("screenshot");
         screenshotUtils.insertScreenshot1();
         //Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
          }
@@ -87,7 +87,7 @@ public class VisaSteps {
 
     @And("I submit the form")
     public void submit() {
-        //screenshotUtils.insertScreenshot("screenshot");
+        screenshotUtils.insertScreenshot("screenshot");
         screenshotUtils.insertScreenshot1();
         //Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
         this.registrationPage.submit();
@@ -98,7 +98,7 @@ public class VisaSteps {
     @Then("I should see get the confirmation number")
     public void verifyConfirmationNumber() throws InterruptedException {
         boolean isEmpty = StringUtils.isEmpty(this.registrationPage.getConfirmationNumber().trim());
-        //screenshotUtils.insertScreenshot("screenshot");
+        screenshotUtils.insertScreenshot("screenshot");
         screenshotUtils.insertScreenshot1();
         Assert.assertFalse(isEmpty);
         Thread.sleep(2000);

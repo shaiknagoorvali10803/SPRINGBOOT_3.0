@@ -4,13 +4,11 @@ import com.spring.springselenium.Configuraion.annotation.LazyAutowired;
 import com.spring.springselenium.Configuraion.annotation.Page;
 import com.spring.springselenium.PageClass.Base;
 import com.spring.springselenium.SeleniumUtils.SeleniumUtils;
-import com.spring.springselenium.StepDefinitions.ScenarioContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -57,8 +55,7 @@ public class VisaRegistrationPage extends Base {
 
     @LazyAutowired
     private SeleniumUtils utils;
-    @Autowired
-    ScenarioContext scenarioContext;
+
    public void setNames(String firstName, String lastName){
         logger.info("Getting names : " + firstName);
         this.firstName.sendKeys(firstName);

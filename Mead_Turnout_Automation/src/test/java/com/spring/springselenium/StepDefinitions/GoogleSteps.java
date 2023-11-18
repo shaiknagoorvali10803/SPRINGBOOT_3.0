@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
@@ -33,67 +34,72 @@ public class GoogleSteps {
     @Autowired
     protected WebDriverWait wait;
     @Autowired
-    public static TestUserDetails testUserDetails;
-    @Autowired
-    ScenarioContext scenarioContext;
+    public TestUserDetails testUserDetails;
     @LazyAutowired
     private SeleniumUtils utils;
 
+    @LazyAutowired
+    ScenarioContext scenarioContext;
+
     @Autowired
     ScreenshotUtils screenshotUtils;
+
     @LazyAutowired
     private GooglePage googlePage;
+
     @Autowired
-    public GoogleSteps (TestUserDetails testUserDetails)
-    {
-        this.testUserDetails=testUserDetails;
-        }
+    public GoogleSteps(TestUserDetails testUserDetails) {
+        this.testUserDetails = testUserDetails;
+    }
 
     @PostConstruct
-    private void init(){
+    private void init() {
         PageFactory.initElements(this.driver, this);
-       }
+    }
 
-   @Given("I am on the google site")
+    @Given("I am on the google site")
     public void launchSite() {
         this.googlePage.goTo();
-        screenshotUtils.insertScreenshot("screenshot");
-       screenshotUtils.insertScreenshot1();
-       testUserDetails.setUserDetails(new UserDetails("Shaik.Nagoorvali","password"));
-        }
+        //screenshotUtils.insertScreenshot("screenshot");
+        screenshotUtils.insertScreenshot1();
+        testUserDetails.setUserDetails(new UserDetails("Shaik.Nagoorvali", "password"));
+    }
+
     @When("I enter {string} as a keyword")
     public void enterKeyword(String keyword) {
         this.googlePage.search(keyword);
-        screenshotUtils.insertScreenshot("screenshot");
+        //screenshotUtils.insertScreenshot("screenshot");
         screenshotUtils.insertScreenshot1();
         screenshotUtils.addLog("searching for String :" + keyword);
-        }
+    }
 
     @Then("I should see search results page")
     public void clickSearch() throws IOException {
         Uninterruptibles.sleepUninterruptibly(Duration.ofSeconds(4));
         Assert.assertTrue(this.googlePage.isAt());
-        System.out.println("hashcode driver "+driver.hashCode());
-        screenshotUtils.insertScreenshot("screenshot");
-        screenshotUtils.insertScreenshot1();
-        Reader reader = Files.newBufferedReader(Paths.get("JsonFiles/NestedJsonArray.json"));
+
+        Reader reader = Files.newBufferedReader(Paths.get("JsonFiles/JsonFile.json"));
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonTree = objectMapper.readTree(reader);
-        JSONObject inputJSONOBject= new JSONObject(jsonTree.toPrettyString());
+        JSONObject inputJSONOBject = new JSONObject(jsonTree.toPrettyString());
         screenshotUtils.addJsonLog(inputJSONOBject);
+
         //Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
-        }
+    }
+
     @Then("I should see at least {int} results")
     public void verifyResults(int count) throws InterruptedException, IOException {
         Assert.assertTrue(this.googlePage.getCount() >= count);
-        utils.singleClick(driver,By.xpath("//a[normalize-space()='Images']"));
+        utils.singleClick(driver, By.xpath("//a[normalize-space()='Images']"));
         Thread.sleep(3000);
-        screenshotUtils.insertScreenshot("screenshot");
+        //screenshotUtils.insertScreenshot("screenshot");
         screenshotUtils.insertScreenshot1();
         driver.findElement(By.xpath("//a[normalize-space()='Videos']")).click();
         Thread.sleep(3000);
-        screenshotUtils.insertScreenshot("screenshot");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='result-stats']")));
+        //screenshotUtils.insertScreenshot("screenshot");
         screenshotUtils.insertScreenshot1();
-        screenshotUtils.addLog(Arrays.asList("nagoor","rubia","nazim","rayan"));
+        screenshotUtils.addLog(Arrays.asList("nagoor", "rubia", "nazim", "rayan"));
+
     }
- }
+}

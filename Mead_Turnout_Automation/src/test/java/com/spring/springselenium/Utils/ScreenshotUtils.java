@@ -6,7 +6,9 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.spring.springselenium.Configuraion.annotation.LazyAutowired;
 import com.spring.springselenium.Configuraion.annotation.Page;
+import com.spring.springselenium.Configuraion.service.ScreenshotService;
 import com.spring.springselenium.StepDefinitions.ScenarioContext;
 import jakarta.annotation.PostConstruct;
 import org.openqa.selenium.OutputType;
@@ -28,6 +30,10 @@ public class ScreenshotUtils {
     WebDriver driver;
     @Autowired
     ScenarioContext scenarioContext;
+    @LazyAutowired
+    private ScreenshotService screenshotService;
+
+
     @PostConstruct
     private void init(){
         PageFactory.initElements(this.driver, this);
@@ -37,7 +43,7 @@ public class ScreenshotUtils {
     public void insertScreenshot(String screenshotTitle){
         if(!scenarioContext.getScenario().isFailed() && scenarioContext.getScenario() !=null ){
             try{
-                scenarioContext.getScenario().attach(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png", screenshotTitle);
+                scenarioContext.getScenario().attach(this.screenshotService.getScreenshot(), "image/png", screenshotTitle);
             }
             catch (Exception e){
                 logger.error("failed to add screenshot because scenario already failed");
@@ -45,7 +51,7 @@ public class ScreenshotUtils {
         }
     }
     public void insertScreenshot1(){
-        ExtentCucumberAdapter.getCurrentStep().log(Status.FAIL, MarkupHelper.createLabel("screenshot", ExtentColor.GREEN),MediaEntityBuilder.createScreenCaptureFromBase64String(getScreenshotBase64()).build());
+        ExtentCucumberAdapter.getCurrentStep().log(Status.PASS, MarkupHelper.createLabel("screenshot", ExtentColor.GREEN),MediaEntityBuilder.createScreenCaptureFromBase64String(getScreenshotBase64()).build());
     }
     public void addLog(String text){
         ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, text);
@@ -57,7 +63,7 @@ public class ScreenshotUtils {
     }
 
     public void addJsonLog(Object object){
-        ExtentCucumberAdapter.getCurrentStep().log(Status.PASS,MarkupHelper.createJsonCodeBlock(object));
+        ExtentCucumberAdapter.getCurrentStep().log(Status.INFO,MarkupHelper.createJsonCodeBlock(object));
     }
     public String getScreenshotBase64() {
         TakesScreenshot ts = (TakesScreenshot) driver;

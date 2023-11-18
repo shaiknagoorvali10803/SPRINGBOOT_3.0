@@ -32,33 +32,32 @@ public class VisaSteps {
 
     @Autowired
     ScreenshotUtils screenshotUtils;
-   @LazyAutowired
+    @LazyAutowired
     private GooglePage googlePage;
 
     @LazyAutowired
     private VisaRegistrationPage visaRegistrationPage;
 
-    @Autowired
+    @LazyAutowired
     ScenarioContext scenarioContext;
 
     @Autowired
-    public VisaSteps (TestUserDetails testUserDetails)
-    {
-        this.testUserDetails=testUserDetails;
+    public VisaSteps(TestUserDetails testUserDetails) {
+        this.testUserDetails = testUserDetails;
     }
 
     @PostConstruct
-    private void init(){
+    private void init() {
         PageFactory.initElements(this.driver, this);
     }
+
     @Given("I am on VISA registration form")
     public void launchSite() {
         this.driver.navigate().to("https://vins-udemy.s3.amazonaws.com/sb/visa/udemy-visa.html");
-        System.out.println("Current Thread Number "+ Thread.currentThread().getThreadGroup() +"thread number"+ Thread.currentThread().getId());
-        screenshotUtils.insertScreenshot("screenshot");
-        //screenshotUtils.insertScreenshot1();
+        //screenshotUtils.insertScreenshot("screenshot");
+        screenshotUtils.insertScreenshot1();
         //Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
-         }
+    }
 
     @When("I select my from country {string} and to country {string}")
     public void selectCountry(String from, String to) {
@@ -87,21 +86,21 @@ public class VisaSteps {
 
     @And("I submit the form")
     public void submit() {
-        screenshotUtils.insertScreenshot("screenshot");
-        //screenshotUtils.insertScreenshot1();
+        //screenshotUtils.insertScreenshot("screenshot");
+        screenshotUtils.insertScreenshot1();
         //Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
         this.registrationPage.submit();
         System.out.println("The Username from GoogleTest Class is:" + testUserDetails.getUserDetails().getUsername());
         System.out.println("The Username from GoogleTest Class is:" + testUserDetails.getUserDetails().getPassword());
-        }
+    }
 
     @Then("I should see get the confirmation number")
     public void verifyConfirmationNumber() throws InterruptedException {
         boolean isEmpty = StringUtils.isEmpty(this.registrationPage.getConfirmationNumber().trim());
-        screenshotUtils.insertScreenshot("screenshot");
-        //screenshotUtils.insertScreenshot1();
+        //screenshotUtils.insertScreenshot("screenshot");
+        screenshotUtils.insertScreenshot1();
         Assert.assertFalse(isEmpty);
         Thread.sleep(2000);
     }
 
-   }
+}
