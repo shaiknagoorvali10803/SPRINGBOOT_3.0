@@ -1,0 +1,28 @@
+{
+"employee":
+[
+{
+		"firstname": "Jim",
+		"lastname": "Brown",
+		"totalprice": 111,
+		"depositpaid": true,
+		"additionalneeds": "Breakfast",
+		"bookingdates": {
+			"checkin": "2021-07-01",
+			"checkout": "2021-07-01"
+		}
+	},
+	{
+		"firstname": "Amod",
+		"lastname": "Mahajan",
+		"totalprice": 222,
+		"depositpaid": true,
+		"additionalneeds": "Breakfast",
+		"bookingdates": {
+			"checkin": "2022-07-01",
+			"checkout": "2022-07-01"
+		}
+	}
+]
+}
+
