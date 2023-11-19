@@ -1,4 +1,4 @@
-package com.spring.springselenium.Configuraion.scope;
+package com.spring.springselenium.Configuraion.BrowserScope;
 
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;

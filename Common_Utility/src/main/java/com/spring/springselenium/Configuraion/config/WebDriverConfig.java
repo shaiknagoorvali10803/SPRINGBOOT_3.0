@@ -1,7 +1,7 @@
 package com.spring.springselenium.Configuraion.config;
 
 import com.spring.springselenium.Configuraion.annotation.LazyConfiguration;
-import com.spring.springselenium.Configuraion.annotation.ThreadScopeBean;
+import com.spring.springselenium.Configuraion.annotation.WebDriverScopeBean;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.openqa.selenium.PageLoadStrategy;
@@ -17,7 +17,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import java.net.MalformedURLException;
@@ -37,7 +36,7 @@ public class WebDriverConfig {
     @Value("${headless}")
     private String headless;
 
-    @ThreadScopeBean
+    @WebDriverScopeBean
     @ConditionalOnProperty(name = "browser", havingValue = "firefox")
     public WebDriver firefoxDriver() {
         FirefoxOptions options = new FirefoxOptions();
@@ -53,7 +52,7 @@ public class WebDriverConfig {
     }
 
 
-    @ThreadScopeBean
+    @WebDriverScopeBean
     @ConditionalOnProperty(name = "browser", havingValue = "chrome")
     public WebDriver chromeDriver(){
         ChromeOptions chromeOptions = new ChromeOptions();
@@ -85,7 +84,7 @@ public class WebDriverConfig {
         return new ChromeDriver(chromeOptions);
     }
 
-    @ThreadScopeBean
+    @WebDriverScopeBean
     @ConditionalOnProperty(name = "browser", havingValue = "edge")
     public WebDriver edgeDriver() {
         EdgeOptions options = new EdgeOptions();

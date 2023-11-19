@@ -4,6 +4,8 @@ import com.spring.springselenium.Configuraion.annotation.LazyAutowired;
 import com.spring.springselenium.PageClass.Google.GooglePage;
 import com.spring.springselenium.PageClass.Visa.VisaRegistrationPage;
 import com.spring.springselenium.Utils.ScreenshotUtils;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -32,33 +34,41 @@ public class VisaSteps {
 
     @Autowired
     ScreenshotUtils screenshotUtils;
-   @LazyAutowired
+    @LazyAutowired
     private GooglePage googlePage;
+
+    Scenario scenario;
 
     @LazyAutowired
     private VisaRegistrationPage visaRegistrationPage;
 
-    @Autowired
+    @LazyAutowired
     ScenarioContext scenarioContext;
 
     @Autowired
-    public VisaSteps (TestUserDetails testUserDetails)
-    {
-        this.testUserDetails=testUserDetails;
+    public VisaSteps(TestUserDetails testUserDetails) {
+        this.testUserDetails = testUserDetails;
     }
 
     @PostConstruct
-    private void init(){
+    private void init() {
         PageFactory.initElements(this.driver, this);
     }
+
+    @Before
+    public void settingScenario(Scenario scenario) {
+        this.scenario=scenario;
+        scenarioContext.setScenario(scenario);
+        System.out.println("scenarion object in Visa page By : ==>"+ scenario );
+    }
+
     @Given("I am on VISA registration form")
-    public void launchSite() {
+    public void launchSite() throws InterruptedException {
         this.driver.navigate().to("https://vins-udemy.s3.amazonaws.com/sb/visa/udemy-visa.html");
-        //System.out.println("Current Thread Number "+ Thread.currentThread().getThreadGroup() +"thread number"+ Thread.currentThread().getId());
+        screenshotUtils.insertScreenshot1(scenario,"screenshot");
         screenshotUtils.insertScreenshot("screenshot");
-        screenshotUtils.insertScreenshot1();
         //Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
-         }
+    }
 
     @When("I select my from country {string} and to country {string}")
     public void selectCountry(String from, String to) {
@@ -86,22 +96,22 @@ public class VisaSteps {
     }
 
     @And("I submit the form")
-    public void submit() {
+    public void submit() throws InterruptedException {
+        screenshotUtils.insertScreenshot1(scenario,"screenshot");
         screenshotUtils.insertScreenshot("screenshot");
-        screenshotUtils.insertScreenshot1();
         //Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
         this.registrationPage.submit();
         System.out.println("The Username from GoogleTest Class is:" + testUserDetails.getUserDetails().getUsername());
         System.out.println("The Username from GoogleTest Class is:" + testUserDetails.getUserDetails().getPassword());
-        }
+    }
 
     @Then("I should see get the confirmation number")
     public void verifyConfirmationNumber() throws InterruptedException {
         boolean isEmpty = StringUtils.isEmpty(this.registrationPage.getConfirmationNumber().trim());
+        screenshotUtils.insertScreenshot1(scenario,"screenshot");
         screenshotUtils.insertScreenshot("screenshot");
-        screenshotUtils.insertScreenshot1();
         Assert.assertFalse(isEmpty);
         Thread.sleep(2000);
     }
 
-   }
+}

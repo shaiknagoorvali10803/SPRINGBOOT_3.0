@@ -1,22 +1,18 @@
 package com.spring.springselenium.Utils;
 
-import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.spring.springselenium.Configuraion.annotation.Page;
-import com.spring.springselenium.StepDefinitions.ScenarioContext;
-import jakarta.annotation.PostConstruct;
+import io.cucumber.java.Scenario;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.util.FileCopyUtils;
 
 import javax.imageio.ImageIO;
@@ -27,45 +23,21 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Page
 public class ScreenshotUtils {
     public static Logger logger = LoggerFactory.getLogger(ScreenshotUtils.class);
-    private static Map<Integer,ScenarioContext> contextMap = new HashMap<>();
     @Autowired
     WebDriver driver;
-
-    @Autowired
-    private ApplicationContext ctx;
 
     @Value("${screenshot.path}")
     private Path path;
 
-    @Autowired
-    private ScenarioContext scenarioContext;
-
-    @PostConstruct
-    private void init(){
-        PageFactory.initElements(this.driver, this);
-        contextMap.put(driver.hashCode(),scenarioContext);
-    }
-    /*
-
+    public void insertScreenshot1(Scenario scenario, String screenshotTitle){
+        scenario.attach(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png", "screenShot");
+     }
     public void insertScreenshot(String screenshotTitle){
-        if(!contextMap.get(driver.hashCode()).getScenario().isFailed() && contextMap.get(driver.hashCode()).getScenario() !=null ){
-            try{
-                contextMap.get(driver.hashCode()).getScenario().attach(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png", "screenShot");
-            }
-            catch (Exception e){
-                logger.error("failed to add screenshot because scenario already failed");
-            }
-        }
-    }
-    */
-    public void insertScreenshot(String screenshotTitle){
-        ExtentCucumberAdapter.getCurrentStep().log(Status.PASS, MarkupHelper.createLabel(screenshotTitle, ExtentColor.GREEN),MediaEntityBuilder.createScreenCaptureFromBase64String(getScreenshotBase64()).build());
+        //ExtentCucumberAdapter.getCurrentStep().log(Status.PASS, MarkupHelper.createLabel(screenshotTitle, ExtentColor.GREEN),MediaEntityBuilder.createScreenCaptureFromBase64String(getScreenshotBase64()).build());
     }
     public void addLog(String text){
         ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, text);

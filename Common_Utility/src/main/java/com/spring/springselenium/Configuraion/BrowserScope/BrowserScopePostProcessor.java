@@ -1,4 +1,4 @@
-package com.spring.springselenium.Configuraion.scope;
+package com.spring.springselenium.Configuraion.BrowserScope;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;

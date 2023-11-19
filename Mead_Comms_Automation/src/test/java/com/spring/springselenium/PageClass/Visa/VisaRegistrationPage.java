@@ -5,9 +5,16 @@ import com.spring.springselenium.Configuraion.annotation.Page;
 import com.spring.springselenium.PageClass.Base;
 import com.spring.springselenium.SeleniumUtils.SeleniumUtils;
 import com.spring.springselenium.StepDefinitions.ScenarioContext;
+import com.spring.springselenium.Utils.ScreenshotUtils;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+import jakarta.annotation.PostConstruct;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +23,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Page
-public class VisaRegistrationPage extends Base {
+public class VisaRegistrationPage {
     private static final Logger logger = LoggerFactory.getLogger(VisaRegistrationPage.class);
 
     @FindBy(id ="first_4")
@@ -57,9 +64,21 @@ public class VisaRegistrationPage extends Base {
 
     @LazyAutowired
     private SeleniumUtils utils;
+    @LazyAutowired
+    ScreenshotUtils screenshotUtils;
+    @Autowired
+    WebDriver driver;
+
     @Autowired
     ScenarioContext scenarioContext;
-   public void setNames(String firstName, String lastName){
+
+    @Autowired
+    WebDriverWait wait;
+    @PostConstruct
+    private void init(){
+        PageFactory.initElements(this.driver, this);
+    }
+    public void setNames(String firstName, String lastName){
         logger.info("Getting names : " + firstName);
         this.firstName.sendKeys(firstName);
         this.lastName.sendKeys(lastName);
@@ -74,6 +93,7 @@ public class VisaRegistrationPage extends Base {
         new Select(this.year).selectByVisibleText(String.valueOf(localDate.getYear()));
         new Select(this.day).selectByVisibleText(String.valueOf(localDate.getDayOfMonth()));
         new Select(this.month).selectByValue(localDate.getMonth().toString());
+        screenshotUtils.insertScreenshot1(scenarioContext.getScenario(),"screenshot");
     }
     public void setContactDetails(String email, String phone){
         this.email.sendKeys(email);

@@ -1,4 +1,4 @@
-package com.spring.springselenium.Configuraion.scope;
+package com.spring.springselenium.Configuraion.BrowserScope;
 
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.context.annotation.Bean;

@@ -1,10 +1,9 @@
 package com.spring.springselenium.StepDefinitions;
 
+import com.spring.springselenium.Configuraion.annotation.GlueScopeBean;
 import io.cucumber.java.Scenario;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.stereotype.Component;
 
-@Component(value=BeanDefinition.SCOPE_SINGLETON)
+@GlueScopeBean
 public class ScenarioContext {
 
 	protected Scenario scenario;

@@ -18,16 +18,10 @@ public class CucumberHooks {
     private ApplicationContext applicationContext;
     @Autowired
     protected WebDriver driver;
-    @LazyAutowired
-    ScenarioContext scenarioContext;
 
     @BeforeAll
     public static void before_or_after_all() throws IOException {
         AllureResultCleaner.cleanUpAllureResultDirectory();
-    }
-    @Before
-    public void settingScenario(Scenario scenario) {
-        scenarioContext.setScenario(scenario);
     }
     @AfterStep
     public void afterStep(Scenario scenario) throws IOException, InterruptedException {

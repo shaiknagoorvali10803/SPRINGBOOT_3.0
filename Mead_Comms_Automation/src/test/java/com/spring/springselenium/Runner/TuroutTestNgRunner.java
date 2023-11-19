@@ -7,7 +7,7 @@ import org.testng.annotations.DataProvider;
 @CucumberOptions(
         features = "classpath:features",
         glue = "com.spring.springselenium.StepDefinitions",
-        //tags =  "@google",
+        //tags =  "@extent",
         plugin = {
                 "pretty",
                 "json:target/cucumber-reports/CucumberTestReport.json",

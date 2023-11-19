@@ -2,13 +2,14 @@ package com.spring.springselenium.Configuraion.annotation;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;
 
-@Bean
-@Scope("browserscope")
+@Component
+@Scope("cucumber-glue")
 @Documented
-@Target({ElementType.METHOD})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ThreadScopeBean {
+public @interface GlueScopeBean {
 }
