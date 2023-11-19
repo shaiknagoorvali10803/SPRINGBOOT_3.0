@@ -55,8 +55,6 @@ public class VisaSteps {
     public void launchSite() throws InterruptedException {
         this.driver.navigate().to("https://vins-udemy.s3.amazonaws.com/sb/visa/udemy-visa.html");
         screenshotUtils.insertScreenshot("screenshot");
-        Thread.sleep(500);
-        screenshotUtils.insertScreenshot1();
         //Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
     }
 
@@ -88,8 +86,6 @@ public class VisaSteps {
     @And("I submit the form")
     public void submit() throws InterruptedException {
         screenshotUtils.insertScreenshot("screenshot");
-        Thread.sleep(500);
-        screenshotUtils.insertScreenshot1();
         //Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
         this.registrationPage.submit();
         System.out.println("The Username from GoogleTest Class is:" + testUserDetails.getUserDetails().getUsername());
@@ -100,8 +96,6 @@ public class VisaSteps {
     public void verifyConfirmationNumber() throws InterruptedException {
         boolean isEmpty = StringUtils.isEmpty(this.registrationPage.getConfirmationNumber().trim());
         screenshotUtils.insertScreenshot("screenshot");
-        Thread.sleep(500);
-        screenshotUtils.insertScreenshot1();
         Assert.assertFalse(isEmpty);
         Thread.sleep(2000);
     }

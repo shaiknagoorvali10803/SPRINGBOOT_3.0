@@ -36,10 +36,13 @@ public class ScreenshotUtils {
     private static Map<Integer,ScenarioContext> contextMap = new HashMap<>();
     @Autowired
     WebDriver driver;
+
     @Autowired
     private ApplicationContext ctx;
+
     @Value("${screenshot.path}")
     private Path path;
+
     @Autowired
     private ScenarioContext scenarioContext;
 
@@ -48,6 +51,7 @@ public class ScreenshotUtils {
         PageFactory.initElements(this.driver, this);
         contextMap.put(driver.hashCode(),scenarioContext);
     }
+    /*
 
     public void insertScreenshot(String screenshotTitle){
         if(!contextMap.get(driver.hashCode()).getScenario().isFailed() && contextMap.get(driver.hashCode()).getScenario() !=null ){
@@ -59,8 +63,9 @@ public class ScreenshotUtils {
             }
         }
     }
-    public void insertScreenshot1(){
-        ExtentCucumberAdapter.getCurrentStep().log(Status.PASS, MarkupHelper.createLabel("screenshot", ExtentColor.GREEN),MediaEntityBuilder.createScreenCaptureFromBase64String(getScreenshotBase64()).build());
+    */
+    public void insertScreenshot(String screenshotTitle){
+        ExtentCucumberAdapter.getCurrentStep().log(Status.PASS, MarkupHelper.createLabel(screenshotTitle, ExtentColor.GREEN),MediaEntityBuilder.createScreenCaptureFromBase64String(getScreenshotBase64()).build());
     }
     public void addLog(String text){
         ExtentCucumberAdapter.getCurrentStep().log(Status.INFO, text);
