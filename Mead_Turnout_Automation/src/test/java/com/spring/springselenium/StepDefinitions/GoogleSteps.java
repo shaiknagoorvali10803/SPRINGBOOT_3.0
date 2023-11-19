@@ -58,17 +58,20 @@ public class GoogleSteps {
     }
 
     @Given("I am on the google site")
-    public void launchSite() {
+    public void launchSite() throws InterruptedException {
         this.googlePage.goTo();
-        //screenshotUtils.insertScreenshot("screenshot");
+        screenshotUtils.insertScreenshot("screenshot");
+        Thread.sleep(500);
         screenshotUtils.insertScreenshot1();
         testUserDetails.setUserDetails(new UserDetails("Shaik.Nagoorvali", "password"));
     }
 
     @When("I enter {string} as a keyword")
-    public void enterKeyword(String keyword) {
+    public void enterKeyword(String keyword) throws InterruptedException {
         this.googlePage.search(keyword);
-        //screenshotUtils.insertScreenshot("screenshot");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='result-stats']")));
+        screenshotUtils.insertScreenshot("screenshot");
+        Thread.sleep(500);
         screenshotUtils.insertScreenshot1();
         screenshotUtils.addLog("searching for String :" + keyword);
     }
@@ -92,12 +95,14 @@ public class GoogleSteps {
         Assert.assertTrue(this.googlePage.getCount() >= count);
         utils.singleClick(driver, By.xpath("//a[normalize-space()='Images']"));
         Thread.sleep(3000);
-        //screenshotUtils.insertScreenshot("screenshot");
+        screenshotUtils.insertScreenshot("screenshot");
+        Thread.sleep(500);
         screenshotUtils.insertScreenshot1();
         driver.findElement(By.xpath("//a[normalize-space()='Videos']")).click();
         Thread.sleep(3000);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='result-stats']")));
-        //screenshotUtils.insertScreenshot("screenshot");
+        screenshotUtils.insertScreenshot("screenshot");
+        Thread.sleep(500);
         screenshotUtils.insertScreenshot1();
         screenshotUtils.addLog(Arrays.asList("nagoor", "rubia", "nazim", "rayan"));
 
